@@ -1,7 +1,8 @@
 #!/usr/bin/env Rscript
 # Jane A. Pascar
 # 2019-01-28
-# usage: Rscript --vanilla clean-ranked-lineage.R [directory to rankedlineage.dmp from NCBI FTP] [optional: path to output directory]
+# You can download the new_taxdump directory locally from here: https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/
+# usage: Rscript --vanilla clean-ranked-lineage.R [path to rankedlineage.dmp] [optional: path to output directory]
 # if no output directory is specified, it will output to the same directory where the .dmp file is stored
 # output: cleaned up rankedlineage.dmp file in .csv format
 
