@@ -1,7 +1,7 @@
 #!/bin/bash
 # Jane A. Pascar
 # 2019-01-22
-# run on the command line: nohup bash ./sra-download.sh [path to .txt with accession #s] [path to output directory] > output.txt &
+# run on the command line: nohup bash ./sra-download.sh [.txt with accession #s] [path to output directory] > output.txt &
 # Output: 
   # 1. sequencing data will be output as [sra accession #].fastq to specified directory
     # Paired end data will be split into forward and reverse reads and singletons;
