@@ -1,6 +1,6 @@
 #!/bin/bash
 # Jane A. Pascar
-# 2019-01-22
+# 2019-06-04
 
 # purpose: download sequencing data stored in the NCBI SRA locally using Aspera for higher speed transfer
 # usage: nohup ./sra-download.sh [.txt with accession #s] [output directory for .sra files] [output directory for fastq files] > output.txt &
