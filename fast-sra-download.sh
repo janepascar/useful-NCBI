@@ -14,19 +14,9 @@
     # FWD *_1.fastq, REV *_2.fastq, unpaired *.fastq
 
 # check to make sure that all arguments are provided
-if [ -z $1 ]; then 
-	echo "ERROR: Missing .txt file containing NCBI SRA accession numbers"
-    exit 1
-fi
-
-if [ -z $2 ]; then 
-	echo "ERROR: Missing path to output directory for .sra files"
-	exit 1
-fi
-
-if [ -z $3 ]; then 
-	echo "ERROR: Missing path to output directory for .fastq files"
-	exit 1
+if [ "$#" -ne 3 ]; then
+	echo "ERROR: Incorrect number of arguments supplied."
+	echo "Correct syntax: ./sra-download.sh [.txt with accession #s] [output directory for .sra files] [output directory for fastq files]"
 fi
 
 # This runs if all arguments are supplied: 
@@ -42,17 +32,23 @@ if [ "$#" == 3 ]; then
         /nfs6/japascar/bin/sratoolkit.2.9.4-2-ubuntu64/bin/prefetch -a "/nfs6/japascar/.aspera/connect/bin/ascp|/nfs6/japascar/.aspera/connect/etc/asperaweb_id_dsa.openssh" -v -O ${SRA_OUT} ${CUR_ACC}
 	done <${ACC}
 
+	# need to convert the .sra files to FASTQ format using the SRA tools
+	# --readids: Append read id after spot id as 'accession.spot.readid' on defline
+	# --origfmt: Defline contains only original sequence name.
+	# --skip-technical: Dump only biological reads.
+	# --split-files: Dump each read into separate file. Files will receive suffix corresponding to read number.
 	while read CUR_ACC; do
-		echo "Beginning to convert ${CUR_ACC}.sra file to FASTQ format..."
-        /nfs6/japascar/bin/sratoolkit.2.9.4-2-ubuntu64/bin/fastq-dump --readids --outdir ${FASTQ_OUT} --origfmt --skip-technical --split-files ${SRA_OUT}/${CUR_ACC}.sra
+	echo "Beginning to convert ${CUR_ACC}.sra file to FASTQ format..."
+	cd ${SRA_OUT}
+        /nfs6/japascar/bin/sratoolkit.2.9.4-2-ubuntu64/bin/fastq-dump --readids --outdir ${FASTQ_OUT} --origfmt --skip-technical --split-files -X 5 ${CUR_ACC}.sra
 	done <${ACC}
 	
 	if [ $? -eq 0 ]
 	then
-  		echo "The script ran ok :D"
+  		echo -e "\U0001f917 The script ran ok \U0001f44D \U0001f44D \U0001f44D"
   		exit 0
 	else
-  		echo "Something went wrong :("
+  		echo -e "\U0001f630 Something went wrong \U0001f44E"
   		exit 1
 	fi
 fi
